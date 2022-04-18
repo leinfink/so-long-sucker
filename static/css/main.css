@@ -13,6 +13,12 @@ nav ul {
 nav {
     position: relative;
 }
+
+nav ul li {
+    position: relative;
+    display: inline-block;
+}
+
 .popup {
     position: absolute;
     top: 45px;
@@ -240,8 +246,7 @@ input:checked + .slider:before {
 
 
 td:nth-child(1) {
-    width:10%;
-    min-width: 100px;
+    width: 100px;
 }
 
 td:nth-child(2) {
@@ -262,7 +267,18 @@ td:nth-child(2) {
 table {
     display: table;
     table-layout: fixed;
+    width:100%;
 }
+
+#possessions {
+    table-layout: auto;
+    width:100%
+}
+
+#possessions td:nth-child(1) {
+    min-width: 100px;
+}
+
 
 .chips_list{
     opacity: 1;
