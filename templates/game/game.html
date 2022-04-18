@@ -46,7 +46,8 @@
    end
   </script>
 
-  <div id="game" hx-ext="ws" ws-connect="wss:/{{ request.get_host }}/so-long-sucker/ws/game/{{ game.pk }}/">
+  <div id="game" hx-ext="ws"
+       ws-connect="{% if SSL_WEBSOCKETS %}wss:/{% else %}ws:/{% endif %}{{ request.get_host }}/so-long-sucker/ws/game/{{ game.pk }}/">
 
     <p>
       <a href="{% url 'lobby' %}" hx-boost="true"

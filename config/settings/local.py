@@ -57,3 +57,5 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 PRODUCTION_WEBSOCKET_URLS = False
 REDIS_HOST = "localhost"
 REDIS_UNIX = False
+
+SSL_WEBSOCKETS = False

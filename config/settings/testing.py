@@ -49,3 +49,5 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 # SECURE_SSL_REDIRECT = True
+
+SSL_WEBSOCKETS = False

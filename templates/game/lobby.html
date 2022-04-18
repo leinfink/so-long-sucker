@@ -4,7 +4,8 @@
 {% block title %}Lobby{% endblock %}
 
 {% block main %}
-  <div id="lobby" class="lobby_container" hx-ext="ws" ws-connect="wss:/{{ request.get_host }}/so-long-sucker/ws/lobby/" >
+  <div id="lobby" class="lobby_container" hx-ext="ws"
+       ws-connect="{% if SSL_WEBSOCKETS %}wss:/{% else %}ws:/{% endif %}{{ request.get_host }}/so-long-sucker/ws/lobby/" >
     <!--
          ws host needs to be exactly the same as server,
          so both 127.0.0.1, not one localhost
