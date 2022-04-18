@@ -1,0 +1,9 @@
+<td hx-swap-oob="outerHTML:#pile_{{captured_pile_num}}" id="pile_{{captured_pile_num}}" class="chips_list" _="install Put_Down_Pile">
+  <form ws-send hx-trigger= "chip_put_down"
+        hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{captured_pile_num}},game:{{game.pk}}}">
+  </form>
+  {% for c in captured_pile %}
+    <div class="chip killable" data-color="{{ c }}">
+    </div>
+  {% endfor %}
+</td>

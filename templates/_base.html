@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>So Long Sucker! {% block title %}{% endblock %}</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="{% static 'css/holidaycss/holiday.css' %}">
+    <link rel="stylesheet" href="{% static 'css/colors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    
+    <script src="{% static 'js/htmx/htmx.js' %}"></script>
+    <script src="{% static 'js/htmx/ws.js' %}"></script>
+    <script src="{% static 'js/htmx/_hyperscript_web.min.js' %}"></script>
+    <meta name="htmx-config" content='{"historyCacheSize": 0, "refreshOnHistoryMiss": true}'>
+    
+  </head>
+  
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' id="body">
+    <header hx-boost="true" hx-target="#main">
+      <h1><a href="{% url 'lobby' %}" style="color:var(--text-color);"  hx-swap="innerHTML show:window:top">So Long Sucker!</a></h1>
+      
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+            <li>Logged in as <em>{{ user.get_username }}</em>.</li>
+            <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+          {% else %}
+            <li>You are not logged in.</li>
+            <li><a href="{% url 'account_login' %}">Log In</a></li>
+            <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+        
+        <div class="switchbox lightOverride">
+          <span>Light Mode</span>
+          <label class="switch"> 
+            <input type="checkbox" id="lightModeCheckbox">
+            <span class="slider" _="on every click toggle @data-user-theme-light on body"></span>
+          </label>
+        </div>
+        <div class="switchbox darkOverride">
+          <span>Dark Mode</span>
+          <label class="switch"> 
+            <input type="checkbox" id="darkModeCheckbox">
+            <span class="slider" _="on every click toggle @data-user-theme-dark on body"></span>
+          </label>
+        </div>
+      </nav>
+    </header>
+    
+    <main id="main">
+      {% block main %}{% endblock %}
+    </main>
+    
+    <footer>
+      <small>So Long Sucker! 2022</small>
+    </footer>
+  </body>
+</html>

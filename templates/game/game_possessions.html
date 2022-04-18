@@ -1,0 +1,13 @@
+{% load custom_filters %}
+{% for p in game.player_set.all %}
+  <tr class="player_possession {% if user.username == p.user.username %} this_players_possessions{% endif %}" data-player="{{ p.user.username }}"  data-color="{{ p.color }}">
+    <td class="playername">{{ p.user.username }}:</td>
+    <td class="chips_list">
+      {% if p.stock %}
+        {% for i in p.stock|times %}
+          <div class="chip" data-color="{{ p.color }}"></div>
+        {% endfor %}
+      {% endif %}
+    </td>
+  </tr>
+{% endfor %}

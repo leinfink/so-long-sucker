@@ -1,0 +1,7 @@
+<td class="chips_list" hx-swap-oob="outerHTML:#pile_{{captured_pile_num}}"
+    _="install Put_Down_Pile" id="pile_{{captured_pile_num}}">
+  <form ws-send hx-trigger= "chip_put_down"
+        hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{captured_pile_num}},game:{{game.pk}}}">
+  </form>
+  <div _="on load call htmx.process('#pile_tr_{{captured_pile_num}}')"></div>
+</td>

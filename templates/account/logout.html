@@ -1,0 +1,21 @@
+{% extends base_template %}
+
+{% block title %}Log Out{% endblock %}
+
+{% block main %}
+  <h2>Log Out</h2>
+  
+  <p>Are you sure you want to log out?</p>
+  <form method="post" action="{% url 'account_logout' %}"
+        hx-boost="true" hx-target="#body"
+        hx-push-url="{% url 'lobby' %}">
+    {% csrf_token %}
+    {% if redirect_field_value %}
+      <input type="hidden"
+             name="{{ redirect_field_name }}"
+             value="{{ redirect_field_value }}" />
+    {% endif %}
+    {{ form.as_p }}
+    <footer><button type="submit">Log Out</button></footer>
+  </form>
+{% endblock %}

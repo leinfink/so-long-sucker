@@ -1,0 +1,183 @@
+:root {
+  --border-color: #dbdbdb;
+  --border-hover-color: #b5b5b5;
+  --background-color: #fafafa;
+  --highlighted-background-color: #f5f5f5;
+  --text-color: #363636;
+  --danger-color: #f14668;
+  --danger-text-color: #fff;
+  --danger-hover-color: #f03a5f;
+  --success-color: #48c774;
+  --success-text-color: #fafafa;
+  --success-hover-color: #3ec46d;
+  --danger-text-background-color: #fde0e6;
+  --success-text-background-color: #effaf3;
+  --border-radius: 0.25rem;
+  --border-width: 1px;
+  --code-text-color: #f14668;
+  --code-background-color: #f5f5f5;
+  --link-color: #3273dc;
+  --link-visited-color: #b86bff;
+  --link-hover-color: #363636;
+  --link-active-color: #363636;
+
+  --chip-color:#363636;
+  --chip0:#e6194b;
+  --chip1:#3cb44b;
+  --chip2:#f58231;
+  --chip3:#911eb4;
+  --chip4:#4363d8;
+  --chip5:#f032e6;
+  --chip6:#bcf60c;
+  --chip7:#ffe119;
+  --chip8:#46f0f0;
+ ;
+
+  --chip-active-border-color:#363636;
+  --popup-color:#eb9438;
+  --possession-table-border: #363636;
+  --possession-this-player: #5f6267;
+  --status-color: #5f6267;
+  --blink-color-base:#363636;
+  --blink-color-switch:#fafafa;
+}
+
+.lightOverride { 
+    display: none;
+}
+
+[data-user-theme-dark] {
+    --border-color: #5f6267;
+    --border-hover-color: #bcbebd;
+    --background-color: #202124;
+    --highlighted-background-color: #292b2e;
+    --text-color: #fff;
+    --danger-color: #770018;
+    --danger-text-color: #fff;
+    --danger-hover-color: #6b0015;
+    --success-color: #006624;
+    --success-text-color: #fff;
+    --success-hover-color: #006122;
+    --danger-text-background-color: #770018;
+    --success-text-background-color: #006624;
+    --code-text-color: #f1a0b0;
+    --code-background-color: #292b2e;
+    --link-color: #90b3ed;
+    --link-visited-color: #cb93ff;
+    --link-hover-color: #fff;
+    --link-active-color: #fff;
+
+    --chip-color:#ffffff;
+    --chip0:#e6194b;
+    --chip1:#3cb44b;
+    --chip2:#ffe119;
+    --chip3:#4363d8;
+    --chip4:#f58231;
+    --chip5:#911eb4;
+    --chip6:#46f0f0;
+    --chip7:#f032e6;
+    --chip8:#bcf60c;
+
+    --chip-active-border-color:#ffffff;
+    --popup-color:#eb9438;
+    --possession-table-border: #ffffff;
+    --possession-this-player: #ffffff;
+    --status-color: #bcbebd;
+    --blink-color-base:#ffffff;
+    --blink-color-switch:#202124;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border-color: #5f6267;
+    --border-hover-color: #bcbebd;
+    --background-color: #202124;
+    --highlighted-background-color: #292b2e;
+    --text-color: #fff;
+    --danger-color: #770018;
+    --danger-text-color: #fff;
+    --danger-hover-color: #6b0015;
+    --success-color: #006624;
+    --success-text-color: #fff;
+    --success-hover-color: #006122;
+    --danger-text-background-color: #770018;
+    --success-text-background-color: #006624;
+    --code-text-color: #f1a0b0;
+    --code-background-color: #292b2e;
+    --link-color: #90b3ed;
+    --link-visited-color: #cb93ff;
+    --link-hover-color: #fff;
+    --link-active-color: #fff;
+
+    --chip-color:#ffffff;
+    --chip0:#e6194b;
+    --chip1:#3cb44b;
+    --chip2:#ffe119;
+    --chip3:#4363d8;
+    --chip4:#f58231;
+    --chip5:#911eb4;
+    --chip6:#46f0f0;
+    --chip7:#f032e6;
+    --chip8:#bcf60c;
+
+    --chip-active-border-color:#ffffff;
+    --popup-color:#eb9438;
+    --possession-table-border: #ffffff;
+    --possession-this-player: #ffffff;
+    --status-color: #bcbebd;
+    --blink-color-base:#ffffff;
+    --blink-color-switch:#202124;
+  }
+
+  .darkOverride {
+      display: none;
+  }
+
+  .lightOverride {
+      display: block;
+  }
+  
+  [data-user-theme-light] {
+      --border-color: #dbdbdb;
+      --border-hover-color: #b5b5b5;
+      --background-color: #fafafa;
+      --highlighted-background-color: #f5f5f5;
+      --text-color: #363636;
+      --danger-color: #f14668;
+      --danger-text-color: #fff;
+      --danger-hover-color: #f03a5f;
+      --success-color: #48c774;
+      --success-text-color: #fafafa;
+      --success-hover-color: #3ec46d;
+      --danger-text-background-color: #fde0e6;
+      --success-text-background-color: #effaf3;
+      --border-radius: 0.25rem;
+      --border-width: 1px;
+      --code-text-color: #f14668;
+      --code-background-color: #f5f5f5;
+      --link-color: #3273dc;
+      --link-visited-color: #b86bff;
+      --link-hover-color: #363636;
+      --link-active-color: #363636;
+
+      --chip-color:#363636;
+      --chip0:#e6194b;
+      --chip1:#3cb44b;
+      --chip2:#f58231;
+      --chip3:#911eb4;
+      --chip4:#4363d8;
+      --chip5:#f032e6;
+      --chip6:#bcf60c;
+      --chip7:#ffe119;
+      --chip8:#46f0f0;
+
+      --chip-active-border-color:#363636;
+      --popup-color:#eb9438;
+      --possession-table-border: #363636;
+      --possession-this-player: #5f6267;
+      --status-color: #5f6267;
+      --blink-color-base:#363636;
+      --blink-color-switch:#fafafa;
+  }
+}

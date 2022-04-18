@@ -1,0 +1,11 @@
+{% load custom_filters %}
+<div hx-swap-oob="beforeend:#dead_box_contents">
+{% for p in captured_pile %}
+
+      <div class="chip"
+           data-color="{{ p }}"
+           style="opacity: 0;" _="on load transition my opacity to 1">
+      </div>
+
+  {% endfor %}
+</div>

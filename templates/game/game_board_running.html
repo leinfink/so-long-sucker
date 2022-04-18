@@ -1,0 +1,135 @@
+{% load custom_filters %}
+
+<div><table id="possessions">
+  <caption>Possessions</caption>
+
+  {% for p in gameRun.players %}
+    <tr class="player_possession
+               {% if user.username == p.playername %}
+               this_players_possessions
+               {% endif %}"
+        data-player="{{ p.playername }}"
+        data-color="{{ p.color }}">
+
+      <td class="playername" >{{ p.playername }}:</td>
+      <td class="chips_list"
+          id="possession_{{p.playername}}"
+          {% if user.username != p.playername %}
+          _="install Put_Down_Possessions"
+          {% endif %}
+          ws-send hx-trigger="chip_put_down"
+          hx-vals="js:{action:'chip_transfer',chipColor:$active_chip.getAttribute('data-color'),targetPlayer:'{{p.playername}}',game:{{gameRun.db_game.pk}}}">
+
+        {% for i in p.stock|times %}
+          {% if user.username == p.playername %}
+            <span _="init set $my_color to {{ p.color }}"></span>
+          {% endif %}
+          <div class="chip
+                      {% if user.username == p.playername %}
+                      clickable" _="install Pickupable(color: {{p.color}})
+                      {% endif %}
+                      " data-color="{{ p.color }}"></div>
+        {% endfor %}
+        {% for i in p.prisoners %}
+          {% for chip in i|times %}
+            <div class="chip
+                        {% if user.username == p.playername %}
+                        clickable" _="install Pickupable(color: {{ forloop.parentloop.counter0 }})
+                        {% endif %}
+                        " data-color="{{ forloop.parentloop.counter0 }}"></div>
+          {% endfor %}
+        {%endfor%}
+      </td>
+    </tr>
+  {% endfor %}
+
+</table></div>
+
+<div><table>
+  <caption>Playing Area</caption>
+
+  <tbody id="playing_area">
+    {% for pile in gameRun.playing_area %}
+      {% if forloop.counter0|stringformat:"i"  != gameRun.last_played_pile|stringformat:"i" or gameRun.state|stringformat:"i" != game_states|dict_key:'AWAIT_CHOOSE_KILL'|stringformat:"i" %}
+        <tr class="pile" id="pile_tr_{{forloop.counter0}}">
+          <td>Pile {{forloop.counter0|add:1}}:</td>
+          <td id="pile_{{forloop.counter0}}"
+              class="chips_list"
+              _="install Put_Down_Pile"
+              ws-send hx-trigger="chip_put_down"
+              hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{forloop.counter0}},game:{{gameRun.db_game.pk}}}">
+            {% for chip in pile %}
+              <div class="chip"
+                   data-color="{{ chip }}"></div>
+            {% endfor %}
+          </td>
+        </tr>
+      {% else %}
+        <script type="text/hyperscript">
+         behavior KillableFromPile
+         on click
+         if $can_kill_from_pile == true
+         trigger chip_killed_from_pile
+         remove <#pile_{{forloop.counter0}} .chip/>
+         set $can_kill_from_pile to false
+         set $can_play to true
+         set $active_chip to false
+         call htmx.process('#playing_area')
+         end
+         end
+         end
+        </script>
+        <tr class="pile" id="pile_tr_{{forloop.counter0}}">
+          <td>Pile {{forloop.counter0|add:1}}:</td>
+          <td id="pile_{{forloop.counter0}}"
+              class="chips_list"
+              _="install Put_Down_Pile">
+              <form ws-send hx-trigger="chip_put_down"
+                    hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{forloop.counter0}},game:{{gameRun.db_game.pk}}}"></form>
+            {% for chip in pile %}
+              <div class="chip killable"
+                   data-color="{{ chip }}"
+                   {% if gameRun.current_player.playername == user.username %}
+                   ws-send hx-trigger="chip_killed_from_pile"
+                   _="install KillableFromPile"
+                   hx-vals='{"action": "kill_from_capture", "chipColor": "{{ chip }}","game": "{{gameRun.db_game.pk}}"}'
+                   {% endif %}>
+              </div>
+              {% if gameRun.current_player.playername == user.username %}
+                <div _="on load set $can_kill_from_pile to true then set $can_play to false then call htmx.process('#pile_tr_{{forloop.counter0}}')"></div>
+                {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+    <tr class="pile" id="pile_tr_{{gameRun.playing_area|length}}">
+      <td>Pile {{gameRun.playing_area|length|add:1}}:</td>
+      <td id="pile_{{gameRun.playing_area|length}}"
+          class="chips_list"
+          _="install Put_Down_Pile"
+          ws-send hx-trigger="chip_put_down"
+          hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{gameRun.playing_area|length}},game:{{gameRun.db_game.pk}}}">
+      </td>
+    </tr>
+    <tr id="next_pile"><td></td></tr>
+  </tbody>
+</table></div>
+
+<div>  <table>
+  <caption>Dead Box</caption>
+  <tbody  id="dead_box">
+    <tr _="install Put_Down_Possessions"
+        ws-send hx-trigger="chip_put_down"
+        hx-vals="js:{action:'prisoner_killed_directly',chipColor:$active_chip.getAttribute('data-color'),targetPlayer: '',game:{{game.db_game.pk}}}">
+      <td id="dead_box_contents">
+        {% for chip in gameRun.dead_box %}
+          <div class="chip"
+               data-color="{{ chip }}">
+          </div>
+        {% endfor %}
+      </td>
+    </tr>
+  </tbody>
+</table></div>
+

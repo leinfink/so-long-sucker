@@ -1,0 +1,96 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %}Lobby{% endblock %}
+
+{% block main %}
+  <div id="lobby" class="lobby_container" hx-ext="ws" ws-connect="wss:/{{ request.get_host }}/so-long-sucker/ws/lobby/" >
+    <!--
+         ws host needs to be exactly the same as server,
+         so both 127.0.0.1, not one localhost
+    -->
+
+    <section>
+      <header>
+        <h2>Open games:</h2>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'create_game' %}"
+                hx-boost="true" hx-target="#main">
+            {% csrf_token %}
+            <button id="create_game_button" type="submit">
+              Create a new game!
+            </button>
+          </form>
+        {% endif %}
+      </header>
+      <form method="post" hx-target="#main">
+        {% csrf_token %}
+        <nav>
+          <ul id="open_games">
+            {% for game in open_games %}
+              {% include "game/open_game.html" %}
+            {% endfor %}
+            
+          </ul>
+          
+        </nav>      
+        {% if open_games.has_next %}
+          <button type="button"
+                  hx-swap-oob="outerHTML:#og_next_page_button"
+                  hx-get="?og_page={{open_games.next_page_number}}"
+                  hx-target="#open_games"
+                  hx-swap="beforeend"
+                  hx-select="#og_next_page_button, #open_games li"
+                  id="og_next_page_button"
+                  style="margin-left: auto;
+                        margin-right: auto; display:block;">
+            Load more <img class="htmx-indicator" width="50px" src="{% static  'img/svg-loaders/three-dots.svg' %}">
+          </button>
+        {% else %}
+          <button type="button"
+                  hx-swap-oob="true"
+                  style="display: None;"
+                  id="og_next_page_button">
+          </button>
+        {% endif %}
+      </form>
+    </section>
+
+    {% if user.is_authenticated %}
+      <section>
+        <header>
+          <h2>Your active games:</h2>
+        </header>
+        <form method="get" hx-target="#main">
+          <nav>
+            <ul id="player_games">
+              {% for game in player_games %}
+                {% include "game/player_game.html" %}
+              {% endfor %}
+            </ul>
+          </nav>
+             {% if open_games.has_next %}
+          <button type="button"
+                  hx-swap-oob="true"
+                  hx-get="?pg_page={{player_games.next_page_number}}"
+                  hx-target="#player_games"
+                  hx-swap="beforeend"
+                  hx-select="#pg_next_page_button, #player_games li"
+                  id="pg_next_page_button"
+                  style="margin-left: auto;
+                        margin-right: auto; display:block;">
+            Load more <img class="htmx-indicator" width="50px" src="{% static  'img/svg-loaders/three-dots.svg' %}">
+          </button>
+        {% else %}
+          <button type="button"
+                  hx-swap-oob="true"
+                  style="display: None;"
+                  id="pg_next_page_button">
+          </button>
+             {% endif %}
+        </form>
+      </section>
+    {% endif %}
+  </div>
+  <p style="font-size:10pt;">Total number of games: {{ total_games }}</p>
+{% endblock %}

@@ -1,0 +1,10 @@
+<li class="player_game" id="game_{{ game.id }}">
+  {% include "game/single_game.html" %}
+  <button
+      type="submit"
+      formaction="{% url 'game' pk=game.id %}"
+      hx-get="{% url 'game' pk=game.id %}"
+      hx-push-url="true">
+    Enter
+  </button>
+</li>

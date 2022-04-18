@@ -1,0 +1,6 @@
+*.pyc
+/db.sqlite3
+/templates/.dir_locals.el
+/dump.rdb
+secrets.json
+/config/db.sqlite3

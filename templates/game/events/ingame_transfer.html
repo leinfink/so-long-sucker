@@ -1,0 +1,10 @@
+{% load custom_filters %}
+<div hx-swap-oob="beforeend:#possession_{{target}}">
+  <div class="chip
+              {% if user == target %}
+              clickable"  _="install Pickupable(color:{{ used_color }})"
+       style="opacity: 0;
+              {% endif %}"
+       data-color="{{ used_color }}"
+  ></div>
+</div>

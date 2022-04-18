@@ -1,0 +1,30 @@
+ <div> {% if not game.started %}
+          <h2>Players:</h2>
+          <ul id="players">
+            {% for player in game.players.all %}
+              <li>{{ player.username }}</li>
+            {% endfor %}
+          </ul>{% if user == game.creator and game.started == None %}
+            <footer> <button ws-send
+                             type="submit"
+                             hx-vals='{"action": "start_game",
+                                   "game": "{{ game.pk }}"}'
+                             _="on click remove me">Start</button>
+          {% endif %}</footer></div>
+        {% else %}
+          <div> <table id="possessions">
+            <caption>Possessions</caption>
+            {% include "game/game_possessions.html" %}
+          </table>  <div>
+
+            <div><table>
+              <caption>Playing Area</caption>
+              <tbody id="playing_area">
+              </tbody>
+            </table></div>
+
+            <div>  <table>   <caption>Dead Box</caption><tbody id="dead_box">
+            </tbody>
+            </table></div>
+
+ {% endif %}

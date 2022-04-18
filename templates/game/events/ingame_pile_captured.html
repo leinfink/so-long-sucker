@@ -1,0 +1,29 @@
+<td hx-swap-oob="outerHTML:#pile_{{captured_pile_num}}" id="pile_{{captured_pile_num}}" class="chips_list" _="install Put_Down_Pile">
+  <form ws-send hx-trigger= "chip_put_down"
+        hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{captured_pile_num}},game:{{game.pk}}}">
+  </form>
+  <script type="text/hyperscript">
+   behavior KillableFromPile
+   on click
+   if $can_kill_from_pile == true
+   trigger chip_killed_from_pile
+   remove <#pile_{{captured_pile_num}} .chip/>
+   set $can_kill_from_pile to false
+   set $can_play to true
+   set $active_chip to false
+   call htmx.process('#playing_area')
+   end
+   end
+   end
+  </script>
+
+  {% for c in captured_pile %}
+    <div class="chip killable" data-color="{{ c }}"
+         ws-send hx-trigger="chip_killed_from_pile"
+         _="install KillableFromPile"
+         hx-vals='{"action": "kill_from_capture", "chipColor": "{{c}}","game": "{{game.pk}}"}'>
+    </div>
+  {% endfor %}
+  
+  <div _="on load set $can_kill_from_pile to true then set $can_play to false then call htmx.process('#pile_tr_{{captured_pile_num}}')"></div>
+</td>

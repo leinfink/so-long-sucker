@@ -1,0 +1,19 @@
+{% extends base_template %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block main %}
+  <h2>Sign Up</h2>
+  
+  <form method="post" action="{% url 'account_signup' %}"
+        hx-boost="true" hx-target="#body">
+    {% csrf_token %}
+    {% if redirect_field_value %}
+      <input type="hidden"
+             name="{{ redirect_field_name }}"
+             value="{{ redirect_field_value }}" />
+    {% endif %}
+    {{ form.as_p }}
+    <footer><button type="submit">Sign Up</button></footer>
+  </form>
+{% endblock %}

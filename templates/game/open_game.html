@@ -1,0 +1,22 @@
+<li class="open_game" id="game_{{ game.id }}">
+  {% include "game/single_game.html" %}
+  {% if user.is_authenticated %}
+    <button type="submit"
+            formaction="{% url 'join_game' pk=game.id %}"
+            hx-post="{% url 'join_game' pk=game.id %}"
+            hx-push-url="{% url 'game' pk=game.id %}">
+      Join
+    </button>
+  {% else %}
+    
+    <button
+        type="submit"
+        formaction="{% url 'account_login' %}"
+        formmethod="get"
+        hx-get="{% url 'account_login' %}"
+        hx-vals='{"try_to_join": {{ game.id }}}'
+        name="try_to_join"
+        hx-push-url="{% url 'game' pk=game.id %}"
+        value="{{ game.id }}">Join</button>
+  {% endif %}
+</li>

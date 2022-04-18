@@ -1,0 +1,28 @@
+{% extends base_template %}
+
+{% block title %}Log In{% endblock %}
+
+{% block main %}
+  
+  <h2>Log In</h2>
+  
+  <form method="post" action="{% url 'account_login' %}"
+        hx-boost="true" hx-target="#body">
+    {% csrf_token %}
+    {% if request.GET.try_to_join %}
+      <p>You have to login to join a game.</p>
+      <input type="hidden"
+             name="{{ redirect_field_name }}"
+             value="{% url 'game' pk=request.GET.try_to_join %}">
+    {% else %}
+      {% if redirect_field_value %}
+        <input type="hidden"
+               name="{{ redirect_field_name }}"
+               value="{{ redirect_field_value }}" />
+      {% endif %}
+    {% endif %}
+    {{ form.as_p }}
+    <footer><button type="submit">Log In</button></footer>
+  </form>
+  
+{% endblock %}

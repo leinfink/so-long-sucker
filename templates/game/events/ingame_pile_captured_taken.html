@@ -1,0 +1,7 @@
+<div hx-swap-oob="beforeend:#possession_{{acting_player}}">
+  {% for i in captured_pile_one_removed %}
+    <div class="chip {% if user == acting_player %}
+                clickable" _="install Pickupable(color: {{ i }})
+    {% endif %}" data-color="{{ i }}"></div>
+  {% endfor %}
+</div>

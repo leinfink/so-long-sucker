@@ -1,0 +1,56 @@
+{% load custom_filters %}
+<div hx-swap-oob="innerHTML:#game_board">
+  <div><table id="possessions">
+    <caption>Possessions</caption>
+
+    {% for p in game.player_set.all %}
+      <tr class="player_possession {% if user == p.user %} this_players_possessions{% endif %}" data-player="{{ p.user.username }}" data-color="{{ p.color }}">
+        <td class="playername" >{{ p.user.username }}:</td>
+        <td class="chips_list"
+            id="possession_{{p.user}}"
+            {% if user != p.user %} _="install Put_Down_Possessions" {% endif %}
+            ws-send hx-trigger="chip_put_down"
+            hx-vals="js:{action:'chip_transfer',chipColor:$active_chip.getAttribute('data-color'),targetPlayer:'{{p.user.username}}',game:{{game.pk}}}">
+          
+          {% for i in starting_chips|times %}
+            {% if user == p.user %}
+              <span _="init set $my_color to {{ p.color }}"></span>
+            {% endif %}
+            <div class="chip
+                        {% if user == p.user %}
+                        clickable" _="install Pickupable(color: {{p.color}})
+                        {% endif %}
+                        " data-color="{{ p.color }}"></div>
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+
+  </table></div>
+
+  <div><table>
+    <caption>Playing Area</caption>
+
+    <tbody id="playing_area">
+      <tr class="pile" id="pile_tr_0">
+        <td>Pile 1:</td>
+        <td id="pile_0" class="chips_list"
+            _="install Put_Down_Pile"
+            ws-send hx-trigger="chip_put_down"
+            hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:0,game:{{game.pk}}}">
+        </td>
+      </tr>
+      <tr id="next_pile"><td></td></tr>
+    </tbody>
+  </table></div>
+
+  <div>  <table>
+    <caption>Dead Box</caption>
+    <tbody  id="dead_box">
+      <tr  _="install Put_Down_Possessions"
+           ws-send hx-trigger="chip_put_down"
+           hx-vals="js:{action:'prisoner_killed_directly',chipColor:$active_chip.getAttribute('data-color'),targetPlayer: '',game:{{game.pk}}}"><td id="dead_box_contents" ></td></tr>
+    </tbody>
+  </table></div>
+
+</div>

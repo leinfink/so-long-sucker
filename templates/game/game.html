@@ -1,0 +1,81 @@
+{% extends base_template %}
+{% block title %} Game {{ game.pk }}{% endblock %}
+{% block main %}
+  <script type="text/hyperscript">
+   behavior Pickupable(color)
+   on load
+   transition my opacity to 1
+   if $my_color != color then
+   set me.prisoner to true
+   end
+   end
+   on click
+   if I match .clickable then
+   if I do not match .activated then
+   take .activated from .chip for me
+   set $active_chip to me
+   else
+       remove .activated from me
+   set $active_chip to false
+   end
+   end
+   end
+   end
+
+   behavior Put_Down_Pile
+   on click
+   if $active_chip and $can_play then
+   put $active_chip at the end of me
+   send chip_put_down to me
+   send chip_put_down to <$me form/>
+   remove .activated from $active_chip
+   remove .clickable from $active_chip then set $active_chip to false
+   end
+   end
+   end
+
+   behavior Put_Down_Possessions
+   on click
+   if $active_chip and $active_chip.prisoner and I do not match .killed then
+   put $active_chip at the end of me
+   send chip_put_down to me
+   remove .activated from $active_chip
+   remove .clickable from $active_chip then set $active_chip to false
+   end
+   end
+   end
+  </script>
+
+  <div id="game" hx-ext="ws" ws-connect="wss:/{{ request.get_host }}/so-long-sucker/ws/game/{{ game.pk }}/">
+
+    <p>
+      <a href="{% url 'lobby' %}" hx-boost="true"
+         hx-target="#main" hx-swap="innerHTML show:window:top">
+        Back to Lobby
+      </a>
+    </p>
+
+    <h1>{{ game }}</h1>
+    <em>{% include "game/game_started_state.html" %}</em>
+
+
+    <section>
+      <p><div id="game_state"
+              hx-get="{% url 'get_gamestate' pk=game.pk %}"
+              hx-trigger="refreshState"
+              hx-swap="outerHTML"
+              style="display: None;"></div></p>
+
+      <div id="game_board" hx-get="{% url 'get_gameboard' pk=game.pk %}" hx-trigger="refreshBoard">
+      </div>
+
+      
+     <div id="messagebox_container" style="display:none;">
+        
+        <form action="javascript:void(0);" _="on submit set value of #messageinput to '' then set placeholder of #messageinput to ''" ws-send hx-vals='{"action":"chat_message", "game" :"{{game.pk}}"}' ><div id="messagebox"></div><input type="text" autocomplete="off" id="messageinput" name="message" size="10" placeholder="Type here to chat"></form>
+      </div>
+
+    </section>
+    <div  _="on load log 'Welcome!' then trigger refreshBoard on #game_board then trigger refreshState on #game_state then remove me"></div>
+  </div>
+{% endblock %}

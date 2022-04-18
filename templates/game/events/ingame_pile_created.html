@@ -1,0 +1,10 @@
+<tr class="pile" id="pile_tr_{{target}}" hx-swap-oob="outerHTML:#next_pile">
+  <td _="on load call htmx.process('#pile_tr_{{target}}') then make a <tr #next_pile/> then put it at the end of #playing_area">
+    Pile {{ target|add:1 }}:
+  </td>
+  <td id="pile_{{target}}" class="chips_list"
+      _="install Put_Down_Pile"
+      ws-send hx-trigger="chip_put_down"
+      hx-vals="js:{action:'chip_put',chipColor:$active_chip.getAttribute('data-color'),targetPile:{{ target }},game:{{game.pk}}}">
+  </td>
+</tr>

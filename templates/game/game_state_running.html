@@ -1,0 +1,64 @@
+{% load custom_filters %}
+<div id="game_state"
+     hx-get="{% url 'get_gamestate' pk=game.pk %}"
+     hx-trigger="refreshState"
+     hx-swap="outerHTML"
+     _="init set $can_play to
+     {% if current_player.playername == user.username and state == game_states|dict_key:'AWAIT_MOVE' %}
+     true
+     {% else %}
+     false
+     {% endif %}
+     then show #messagebox_container
+     ">
+
+{% if state == game_states|dict_key:'AWAIT_MOVE' %}
+
+    <div>Waiting for a move by <em>{{ current_player }}</em>!</div>
+
+  {% elif state == game_states|dict_key:'AWAIT_GIVE_MOVE' %}
+
+    <div>Please decide who gets the move, <em>{{ current_player }}</em>!</div>
+
+    {% if user.username == current_player.playername %}
+      <form ws-send hx-trigger="giveMoveClicked"
+            hx-vals='{"action": "give_move", "game": "{{ game.pk }}"}'>
+        <select name="move_given">
+          {% for p in available_player_targets %}
+            <option>{{ p.playername }}</option>
+          {% endfor %}
+        </select>
+          <button type="button" _="on click send giveMoveClicked">Give Move</button>
+      </form>
+    {% endif %}
+
+  {% elif state == game_states|dict_key:'AWAIT_CHOOSE_KILL' %}
+
+    <div><em>{{ current_player }}</em> has to decide which chip to kill out of the captured pile.</div>
+    
+{% elif state == game_states|dict_key:'AWAIT_REFUSALS' %}
+
+    <div>Will anybody save <em>{{ current_player }}</em>? Please transfer a chip or state your refusal.</div>
+    {% if user.username != current_player.playername and user.username in alive %}
+      <form ws-send hx-trigger="refuseHelpClicked"
+            hx-vals='{"action": "refuse_help", "game": "{{ game.pk }}"}'>
+        <button type="button" style="background-color: var(--danger-text-background-color); color:var(--text-color)" _="on click send refuseHelpClicked then set { disabled: true} on me then set my.innerText to 'Help refused!'">Refuse help</button>
+      </form>
+    {% endif %}
+
+  {% elif state == game_states|dict_key:'FINISHED' %}
+
+    <div>Game finished! <em>{{ winner }}</em> won!</div>
+
+  {% elif state == game_states|dict_key:'ABORTED' %}
+
+    <div>Game aborted.</div>
+
+  {% elif state == game_states|dict_key:'NOT_RUNNING' %}
+
+    <div>Game not running.</div>
+
+  {% endif %}
+
+
+</div>

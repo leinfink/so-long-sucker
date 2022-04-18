@@ -1,0 +1,36 @@
+<div id="game_started_status">
+  {% if game.started == None %}
+    {% if user not in game.players.all %}
+      {% if user.is_authenticated %}
+        <button ws-send
+                type="submit"
+                hx-push="{% url 'game' pk=game.id %}"
+                hx-vals='{"action": "join_game",
+                      "game": "{{ game.pk }}"}'
+                _="on click remove me">Join</button>
+      {% else %}
+        <button
+            type="submit"
+            hx-target="#main"
+            hx-get="{% url 'account_login' %}"
+            hx-vals='{"try_to_join": {{ game.id }}}'
+            name="try_to_join"
+            value="{{ game.id }}">Join</button>
+      {% endif %}
+    {% else %}
+      Waiting to start...
+    {% endif %}
+  {% else %}
+    {% if game.completed == None %}
+      {% if user not in game.players.all %}
+        This game started already, you can only watch. (Not yet implemented.)
+        <div _="on load hide #game_board then remove #game_state"></div>
+      {% else %}
+        Game is underway.
+      {% endif %}
+    {% else %}
+      Game is finished, <em>{{game.winner}}</em> won!
+      <div _="on load hide #game_board then remove #game_state"></div>
+    {% endif %}
+  {% endif %}
+</div>
