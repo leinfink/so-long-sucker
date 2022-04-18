@@ -59,8 +59,10 @@ This extension adds support for WebSockets to htmx.  See /www/extensions/ws.md f
 					ensureWebSocket(child)
 				});
 
-                        // Henrik Addition
-                        // Re-connect any ws-send commands as well.
+                        /*
+                          added by Henrik Hörmann for so-long-sucker
+                          Re-connect any ws-send commands as well:
+                        */
                         nodes = parent.querySelectorAll("[ws-send]");
 		            forEach(nodes, function(child){
                                 var legacyAttribute = api.getAttributeValue(child, "hx-ws");
@@ -74,6 +76,7 @@ This extension adds support for WebSockets to htmx.  See /www/extensions/ws.md f
 			        processWebSocketSend(ws_connect_parent, child);
 		            });
 			}
+                       // end of addition
 		}
 	});
 
@@ -221,7 +224,7 @@ This extension adds support for WebSockets to htmx.  See /www/extensions/ws.md f
 			}
 		});
             
-                // henrik addition
+                // addition by Henrik Hörmann for so-long-sucker
                 child.setAttribute('ws-listener', parent.id);
 	}
 	
