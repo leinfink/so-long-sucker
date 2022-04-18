@@ -56,7 +56,19 @@
     </main>
     
     <footer>
-      <small>So Long Sucker! 2022</small>
+      <small><a href="https://github.com/leinfink/so-long-sucker"> Find me on Github!
+        <picture style="display: inline; left:0;">
+          <source 
+              srcset="{% static 'img/github_mark_light.png' %}" 
+              media="(prefers-color-scheme: dark)">
+          <img src="{% static 'img/github_mark_dark.png' %}"
+               style="height: 1.5em;
+                    margin-left: 4px;
+                    top: 5px;
+                    position: relative;
+                    }">
+        </picture></a>
+      </small>
     </footer>
   </body>
 </html>
