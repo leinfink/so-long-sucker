@@ -4,7 +4,7 @@ SECRET_KEY = get_secret('PRODUCTION_SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS')
+ALLOWED_HOSTS = [get_secret('ALLOWED_HOST')]
 
 ASGI_APPLICATION = "config.asgi.application"
 
@@ -33,7 +33,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": get_secret('CHANNEL_REDIS_HOST')
+            "hosts": [get_secret('CHANNEL_REDIS_HOST')]
         },
     }
 }
