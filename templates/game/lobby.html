@@ -70,7 +70,7 @@
               {% endfor %}
             </ul>
           </nav>
-             {% if open_games.has_next %}
+             {% if player_games.has_next %}
           <button type="button"
                   hx-swap-oob="true"
                   hx-get="?pg_page={{player_games.next_page_number}}"
