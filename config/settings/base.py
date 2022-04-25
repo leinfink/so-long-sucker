@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django_htmx',
+    'markdownify.apps.MarkdownifyConfig',
 
     # so-long-sucker apps
     'game.apps.GameConfig',
@@ -203,3 +204,29 @@ ACCOUNT_FORMS = {
 
 
 SSL_WEBSOCKETS = False
+
+
+MARKDOWNIFY = {
+    "default": {
+        "WHITELIST_TAGS": [
+            'a',
+            'abbr',
+            'acronym',
+            'b',
+            'blockquote',
+            'em',
+            'i',
+            'li',
+            'ol',
+            'p',
+            'strong',
+            'ul',
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6',
+        ]
+    }
+}

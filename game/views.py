@@ -7,10 +7,14 @@ from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.core.paginator import Paginator
 
+import os
+
 from .models import Player, Game
 from config.utils import get_base_template
 from game.utils import get_game_through_redis
 from game.game_logic import GameState, GameRun
+
+from django.conf import settings
 
 @never_cache
 def lobby(request: HttpRequest) -> HttpResponse:
@@ -36,6 +40,18 @@ def lobby(request: HttpRequest) -> HttpResponse:
             "total_games": Game.get_total_number_of_games(),
         },
     )
+
+
+def rules(request:HttpRequest) -> HttpResponse:
+    markdown_rules = open(os.path.join(settings.BASE_DIR, "rules.md")).read()
+    return render(
+            request,
+                "game/rules.html",
+                { 
+                    "base_template": get_base_template(request),
+                    "markdown_rules": markdown_rules,
+                },
+        )
 
     
 @never_cache

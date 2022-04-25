@@ -93,5 +93,8 @@
       </section>
     {% endif %}
   </div>
-  <p style="font-size:10pt;">Total number of games: {{ total_games }}</p>
+  <div style="display:flex; justify-content:center; gap: 35px;">
+    <p style="font-size:10pt;">Total number of games: {{ total_games }}</p>
+    <p style="font-size:10pt;"}><a href="rules/"  hx-boost="true" hx-target="#main">Read the Rules</a></p>
+  </div>
 {% endblock %}
