@@ -50,7 +50,7 @@
 
   <tbody id="playing_area">
     {% for pile in gameRun.playing_area %}
-      {% if forloop.counter0|stringformat:"i"  != gameRun.last_played_pile|stringformat:"i" or gameRun.state|stringformat:"i" != game_states|dict_key:'AWAIT_CHOOSE_KILL'|stringformat:"i" %}
+      {% if forloop.counter0|stringformat:"i"  != gameRun.last_played_pile|stringformat:"i" or gameRun.state.value|stringformat:"s" != game_states|dict_key:'AWAIT_CHOOSE_KILL'|stringformat:"s" %}
         <tr class="pile" id="pile_tr_{{forloop.counter0}}">
           <td>Pile {{forloop.counter0|add:1}}:</td>
           <td id="pile_{{forloop.counter0}}"
