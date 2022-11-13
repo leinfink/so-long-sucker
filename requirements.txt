@@ -70,7 +70,7 @@ PyAudio==0.2.11
 pycairo==1.21.0
 pycparser==2.21
 PyGObject==3.42.1
-PyJWT==2.3.0
+PyJWT==2.4.0
 pyOpenSSL==22.0.0
 pyparsing==3.0.8
 PyQt5==5.15.6
